@@ -1,0 +1,28 @@
+---
+
+- name: Network Getting Started First Playbook
+  gather_facts: true
+  become: yes
+  hosts: all
+  tasks:
+
+    - name: Display the config
+      ansible.builtin.debug:
+        msg: "The hostname is {{ ansible_hostname }} "
+
+    - name: Check the server uptime
+      ansible.builtin.command: /usr/bin/uptime
+      register: uptime_check
+
+    - name: display uptime
+      ansible.builtin.debug:
+        var: uptime_check.stdout
+
+    - name: check whoami
+      ansible.builtin.command: /usr/bin/whoami
+      become_user: root
+      register: whoami_check
+
+    - name: display whoami
+      ansible.builtin.debug:
+        var: whoami_check.stdout
